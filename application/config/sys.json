@@ -1,0 +1,15 @@
+{
+    "preset_data": {
+        "auth": [
+            {
+                "id": 1,
+                "name": "管理员",
+                "actions": [
+                    "权限管理",
+                    "编辑权限"
+                ],
+                "creator_id": 1
+            }
+        ]
+    }
+}

@@ -25,6 +25,7 @@ class BusinessAction
         ],
 
         '修改邮轮' => [
+            'read' => ['url'=>'/business/CruiseShip/read_modify'],
             'submit'=>['url'=>'/business/CruiseShip/submit'],
         ],
 

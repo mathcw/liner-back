@@ -122,4 +122,18 @@ class Group extends TU_Controller {
         T::$U->db->trans_complete();
         sys_succeed(i('SAVE.SUC'));
     }
+
+    public function destroy() {
+        $group  = T::$U->db->get_where('product_group',['id'=>T::$U->post['id']])->row_array();
+        T::$U->db->trans_start();
+        sys_destroy(T::$U->post, $this->table, 'id');
+        T::$U->db->delete('group_fee_detail',['group_id'=>T::$U->post['id']]);
+
+        T::$U->db->where('product_id',$group['product_id']);
+        $total = T::$U->db->count_all_results('product_group');
+
+        T::$U->db->update('product',['group_count'=>$total],['id'=>$group['product_id']]);
+        T::$U->db->trans_complete();
+        sys_succeed(i('DEL.SUC'));
+    }
 }

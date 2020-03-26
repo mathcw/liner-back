@@ -114,8 +114,8 @@ class ProductTable
         'group_fee_detail'=>[[
             'id' =>                 ['type' => 'id  |', 'text' => ['主键', 'identity']],
             'group_id'=>            ['type' => 'ref*|','text' => ['团', 'group']],
-            'room_type'=>           ['type' => 'ref*|','text'=>['房型','fee type']],
-            'location'=>            ['type'=>'ref*|','text'=>['位置','location']],
+            'room_type'=>           ['type' => '|varchar(255)','text'=>['房型','fee type']],
+            'location'=>            ['type'=>'|varchar(255)','text'=>['位置','location']],
             'price'=>               ['type'=>'    |decimal(16,2)','text'=>['单价','price']],           
             'last_update' =>        ['type' => 'stamp|', 'text' => ['最后更新', 'last update']],
         ], [

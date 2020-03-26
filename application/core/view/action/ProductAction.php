@@ -23,7 +23,7 @@ class ProductAction
             'submit' =>   ['url'=>'/productStore/Group/modify']
         ],
         '删除班期'=>[
-            'submit' =>   ['url'=>'/productStore/Group/modify']
+            'submit' =>   ['url'=>'/productStore/Group/destroy']
         ]
     ];
 }

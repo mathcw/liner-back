@@ -8,7 +8,7 @@ class DB {
 
     public static function init(){
     	foreach (['Sys','Business'
-				  ,'Org'] as $name) {
+				  ,'Org','Product'] as $name) {
 			require_once 'table/'.$name.'Table.php';
 			$cat = $name.'Table';
 		    foreach ($cat::$c as $table => $cfg) {
@@ -20,7 +20,7 @@ class DB {
 		    }
 		}
 
-    	foreach ([] as $name) {
+    	foreach (['Product'] as $name) {
 			require_once 'view/'.$name.'View.php';
 			$cat = $name.'View';
 		    foreach ($cat::$c as $view => $cfg) {

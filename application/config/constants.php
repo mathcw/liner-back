@@ -100,5 +100,11 @@ define('INIT_USER', 3);        //用户，       √ session
 
 
 define('PDF_LIMIT',	  10485760); //10M	
+define('VIDEO_LIMIT', 209715200);// 200m
 
 define('APP_NAME', 'TY_LINER');
+
+define('PD_KIND_DAN',1);
+define('PD_KIND_YOU',2);
+define('PD_KIND_HE',3);
+

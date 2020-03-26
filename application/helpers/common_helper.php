@@ -28,7 +28,6 @@ function sys_upload($field, $type, $limit, $prefix='', $upload_path=NULL, $keep_
         $upload_path = 'upload/';
     }
     $file_type = array('image' => i('PIC'), 'word' => 'word '.i('FILE'), 'excel' => 'CSV '.i('FILE'));
-    
     if (!isset($_FILES[$field])) {
         sys_error(i('MISS.PARAM'));
     } else {

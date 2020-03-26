@@ -4,6 +4,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CruiseShip extends TU_Controller {
     public $table = 'cruise_ship';
 
+    public function read_convert(&$items){
+        $ids = array_column($items,'id');
+        if(!empty($ids)){
+            T::$U->db->where_in('ship_id',$ids);
+            $pics = T::$U->db->select('ship_id,pic')->get_where('ship_pic')->result_array(); 
+
+            $map = array_column($pics,'pic','ship_id');
+            foreach($items as &$item){
+                $item['list_pic'] = !empty($map[$item['id']])?$map[$item['id']]:'';
+            }
+        }
+    }
 
     public function submit(){
         $post = T::$U->post;
@@ -192,6 +204,7 @@ class CruiseShip extends TU_Controller {
 
         sys_succeed(null,[
             'baseInfo' => $base_info,
+            'video'=>$base_info['video']??'',
             'des' =>$des['des']??'',
             'des_html' =>$des['des_html']??'',
             'pic_arr'=>$base_pic_arr,

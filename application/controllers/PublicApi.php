@@ -23,17 +23,4 @@ class PublicApi extends TU_Controller {
 
         sys_succeed(null,$init);
     }
-
-    public function upload($type) {
-        switch ($type) {
-            default:
-                $save_path=sys_upload('file','all',31457280, '', $type.'/');
-                break;
-        }
-        //
-        $save_path  = get_server_path() . '/liner-back/'.$save_path;
-
-        $rst = array('save_path'=>$save_path);
-        sys_succeed(i('UPLOAD.SUC'),null,$rst); 
-    }
 }

@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 function tu_authority_check() {
-    $pass = ['Session.*','PublicApi.*','UserLogout.*'];
+    $pass = ['Session.*','PublicApi.*','UserLogout.*','UploadApi.*'];
 
     $class = T::$U->router->fetch_class();
     $method = T::$U->router->fetch_method();

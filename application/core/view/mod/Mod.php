@@ -7,7 +7,7 @@ class Mod {
     public static $a = [];
 
     public static function init(){    
-        foreach (['Org','Home','Business','Sys'] as $name) {
+        foreach (['Org','Home','Business','Sys','Product'] as $name) {
             require_once $name.'Mod.php';
             $cat = $name.'Mod';
             foreach ($cat::$c as $mod => $cfg) {

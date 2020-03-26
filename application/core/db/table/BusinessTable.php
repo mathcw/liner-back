@@ -50,6 +50,7 @@ class BusinessTable
 
         'cruise_ship' => [[
             'id' =>                 ['type' => 'id  |', 'text' => ['主键', 'identity']],
+            'cruise_company_id'=>   ['type' => 'ref*|', 'text' => ['邮轮公司', 'cruise_company']],
             'account_id' =>         ['type' => 'self|', 'text' => ['创建人', 'account id']],
             'name' =>               ['type' => '*   |varchar(255)', 'text' => ['名称', 'name']],
             'level'=>               ['type' => "    |tinyint(4) DEFAULT '1'",'text'=>['星级','level']],
@@ -62,6 +63,8 @@ class BusinessTable
             'length'=>              ['type'=>'      |int(11)','text'=>['长度','length']],
             'width'=>               ['type'=>'      |int(11)','text'=>['宽度','width']],
             'speed'=>               ['type'=>'      |int(11)','text'=>['航速','speed']],
+            'kind' =>               ['type'=>'     *|tinyint(4)','text'=>['邮轮类型','kind']],
+            'video'=>               ['type'=>'      |varchar(255)','text'=>['简介视频','video']],
             'state' =>              ['type' => "    |tinyint(4) DEFAULT '1'", 'text' => ['状态 ', 'state']],
             'last_update' =>        ['type' => 'stamp|', 'text' => ['最后更新', 'last update']],
         ], [

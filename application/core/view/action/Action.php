@@ -6,7 +6,7 @@ class Action {
     public static $c = [];
 
     public static function init(){    
-        foreach (['Org','Business','Sys'] as $name) {
+        foreach (['Org','Business','Sys','Product'] as $name) {
             require_once $name.'Action.php';
             $cat = $name.'Action';
             foreach ($cat::$c as $action => $cfg) {

@@ -35,11 +35,20 @@ class Group extends TU_Controller {
             T::$U->db->insert('product_group',$rst);
             $group_id = T::$U->db->insert_id();
             $min = 0;
+            $duoren_min = '';
             foreach ($group['price_arr'] as &$value) {
                 $value['group_id'] = $group_id;
+                if(empty($value['duoren_price'])){
+                    if($value['duoren_price'] !== 0){
+                        $value['duoren_price'] = '';
+                    }
+                }
                 $min = ($min ==0 || $min >$value['price']) ?$value['price']: $min;
+                if(!empty($value['duoren_price']) || $value['duoren_price']===0){
+                    $duoren_min = ($duoren_min =='' || $duoren_min >$value['duoren_price']) ?$value['duoren_price']: $duoren_min;
+                }
             }
-            T::$U->db->update('product_group',['min_price'=>$min],['id'=>$group_id]);
+            T::$U->db->update('product_group',['min_price'=>$min,'min_duoren_price'=>$duoren_min],['id'=>$group_id]);
             T::$U->db->insert_batch('group_fee_detail',$group['price_arr']);
         }
 
@@ -78,28 +87,44 @@ class Group extends TU_Controller {
 
         T::$U->db->update('product_group',['dep_date'=>$group['dep_date']],['id'=>$group_id]);
         $min = 0;
+        $duoren_min = '';
         $update_arr = [];
         $insert_arr = [];
         $id_arrs = [];
         foreach ($group['price_arr'] as $value) {
             if(empty($value['id'])){
+                if(empty($value['duoren_price'])){
+                    if($value['duoren_price'] !== 0){
+                        $value['duoren_price'] = '';
+                    }
+                }
                 $insert_arr[] = [
                     'group_id'=>$group_id,
-                    'price'=>$value['price'],
-                    'room_type'=>$value['room_type'],
-                    'location'=>$value['location']
+                    'price'=>$value['price']??0,
+                    'duoren_price'=>$value['duoren_price'],
+                    'room_type'=>$value['room_type']??'',
+                    'location'=>$value['location']??''
                 ];
             }else{
+                if(empty($value['duoren_price'])){
+                    if($value['duoren_price'] !== 0){
+                        $value['duoren_price'] = '';
+                    }
+                }
                 $update_arr[] = [
                     'id'=>$value['id'],
                     'group_id'=>$group_id,
-                    'price'=>$value['price'],
-                    'room_type'=>$value['room_type'],
-                    'location'=>$value['location']
+                    'duoren_price'=>$value['duoren_price'],
+                    'price'=>$value['price']??0,
+                    'room_type'=>$value['room_type']??'',
+                    'location'=>$value['location']??''
                 ];
                 $id_arrs[] = $value['id'];
             }
             $min = ($min ==0 || $min >$value['price']) ?$value['price']: $min;
+            if(!empty($value['duoren_price']) || $value['duoren_price']===0){
+                $duoren_min = ($duoren_min =='' || $duoren_min >$value['duoren_price']) ?$value['duoren_price']: $duoren_min;
+            }
         }
         if(empty($id_arrs)){
             T::$U->db->delete('group_fee_detail',['group_id'=>$group_id]);
@@ -118,7 +143,7 @@ class Group extends TU_Controller {
         if(!empty($update_arr)){
             T::$U->db->update_batch('group_fee_detail',$update_arr,'id');
         }
-        T::$U->db->update('product_group',['min_price'=>$min],['id'=>$group_id]);
+        T::$U->db->update('product_group',['min_price'=>$min,'min_duoren_price'=>$duoren_min],['id'=>$group_id]);
         T::$U->db->trans_complete();
         sys_succeed(i('SAVE.SUC'));
     }

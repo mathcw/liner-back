@@ -103,7 +103,8 @@ class ProductTable
             'id' =>                 ['type' => 'id  |', 'text' => ['主键', 'identity']],
             'product_id'=>          ['type' => 'ref*  |','text' => ['产品', 'ship']],
             'dep_date'=>            ['type'=> ' *|date','text'=>['出发日期','dep_date']],
-            'min_price'=>           ['type'=> '     |decimal(16,2)','text'=>['最低价','min price']],
+            'min_duoren_price'=>    ['type'=> '     |varchar(255)','text'=>['三/四最低价','min price']],
+            'min_price'=>           ['type'=> '     |decimal(16,2)','text'=>['一/二最低价','min price']],
             'last_update' =>        ['type' => 'stamp|', 'text' => ['最后更新', 'last update']],
         ], [
             'pk' => 'PRIMARY KEY (`id`)',
@@ -116,7 +117,8 @@ class ProductTable
             'group_id'=>            ['type' => 'ref*|','text' => ['团', 'group']],
             'room_type'=>           ['type' => '|varchar(255)','text'=>['房型','fee type']],
             'location'=>            ['type'=>'|varchar(255)','text'=>['位置','location']],
-            'price'=>               ['type'=>'    |decimal(16,2)','text'=>['单价','price']],           
+            'price'=>               ['type'=>'    |decimal(16,2)','text'=>['1/2单价','price']], 
+            'duoren_price'=>        ['type'=>'    |varchar(255)','text'=>['多人价','duoren price']],          
             'last_update' =>        ['type' => 'stamp|', 'text' => ['最后更新', 'last update']],
         ], [
             'pk' => 'PRIMARY KEY (`id`)',

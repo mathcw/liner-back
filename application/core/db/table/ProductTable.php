@@ -152,8 +152,35 @@ class ProductTable
             'weChat'=>              ['type'=>  '    |varchar(255)','text'=>['微信','wechat']],
             'mail'=>                ['type'=>  '    |varchar(255)','text'=>['mail','mail']],
             'comment'=>             ['type'=>  '    |text','text'=>['留言','comment']],
+            'last_update' =>        ['type' => 'stamp|', 'text' => ['最后更新', 'last update']],
         ], [
             'pk' => 'PRIMARY KEY (`id`)'
         ]],
+
+        'order'=>[[
+            'id' =>                 ['type' => 'id  |', 'text' => ['主键', 'identity']],
+            'name'=>                ['type'=>  '    |varchar(255)','text'=>['姓名','name']],
+            'phone'=>               ['type'=>  '    |varchar(255)','text'=>['电话','mobile']],
+            'group_id'=>            ['type' => 'ref*|','text' => ['团', 'group']],
+            'fee_id'=>              ['type' => 'ref*|','text' => ['费用', 'fee']],
+            // 当时系统价
+            'dep_date'=>            ['type'=> ' |date','text'=>['出发日期','dep_date']],
+
+            'room_type'=>           ['type' => '|varchar(255)','text'=>['房型','fee type']],
+            'location'=>            ['type'=>'|varchar(255)','text'=>['位置','location']],
+            'price'=>               ['type'=>'    |decimal(16,2)','text'=>['1/2单价','price']], 
+            'duoren_price'=>        ['type'=>'    |varchar(255)','text'=>['多人价','duoren price']],
+            
+            // 游客所见价
+            'use_dep_date'=>            ['type'=> ' |date','text'=>['出发日期','dep_date']],
+          
+            'use_room_type'=>           ['type' => '|varchar(255)','text'=>['房型','fee type']],
+            'use_price'=>               ['type'=>'    |decimal(16,2)','text'=>['1/2单价','price']], 
+            'use_duoren_price'=>        ['type'=>'    |varchar(255)','text'=>['多人价','duoren price']],
+
+            'last_update' =>        ['type' => 'stamp|', 'text' => ['最后更新', 'last update']],
+        ],[
+            'pk' => 'PRIMARY KEY (`id`)'
+        ]]
     ];
 }

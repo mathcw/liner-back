@@ -214,4 +214,95 @@ class WebApi extends TU_Controller
             'data' => $items,
         ]);
     }
+
+    public function detail(){
+        $get = T::$U->get;
+        if(empty($get['id'])){
+            sys_error('缺少参数');
+        }
+        
+        $data = T::$U->db->get_where('product_group_view',['id'=>$get['id']])->row_array();
+        
+        
+
+        if(empty($data)){
+            sys_error('没有数据');
+        }
+
+        $pd_id = $data['product_id'];
+        $group_id = $data['id'];
+        $ship_id = $data['ship_id'];
+        if($data['kind'] == PD_KIND_YOU ||$data['kind'] == PD_KIND_HE){
+            
+            $pics = T::$U->db->select('pic')->get_where('product_pic',['product_id'=>$pd_id])->result_array();
+            $data['pic'] = empty($pics)? '':$pics[0]['pic'];
+            $detail = T::$U->db->get_where('ship_des',['ship_id'=>$ship_id])->row_array();
+            $data['ship_dep'] = $detail['des'];
+
+            $detail = T::$U->db->get_where('product_detail',['product_id'=>$pd_id])->row_array();
+            $data['bright_spot'] = $detail['bright_spot'];
+            $data['book_info'] = $detail['book_info'];
+            $data['fee_info'] = $detail['fee_info'];
+            $data['fee_include'] = $detail['fee_include'];
+            $data['fee_exclude'] = $detail['fee_exclude'];
+            $data['cancel_info'] = $detail['cancel_info'];
+
+            T::$U->db->order_by('order','asc');
+            $itins = T::$U->db->get_where('product_itin',['product_id'=>$pd_id])->result_array();
+            foreach ($itins as &$itin) {
+                $pic_arr = T::$U->db->select('pic')->get_where('itin_pic', ['itin_id' => $itin['id']])->result_array();
+                $itin['pic_arr'] = array_column($pic_arr, 'pic');
+            }
+            $data['itins'] = empty($itins) ?[]: $itins;
+
+
+            $fees = T::$U->db->get_where('group_fee_detail',['group_id'=>$group_id])->result_array();
+            $data['fees'] = $fees;
+        }else{
+            $pics = T::$U->db->select('pic')->get_where('ship_pic',['ship_id'=>$ship_id])->result_array();
+            $data['pic'] = empty($pics)? '':$pics[0]['pic'];
+            $detail = T::$U->db->get_where('ship_des',['ship_id'=>$ship_id])->row_array();
+            $data['ship_dep'] = $detail['des'];
+            
+            $detail = T::$U->db->get_where('product_detail',['product_id'=>$pd_id])->row_array();
+            $data['bright_spot'] = $detail['bright_spot'];
+            $data['book_info'] = $detail['book_info'];
+            $data['fee_info'] = $detail['fee_info'];
+            $data['fee_include'] = $detail['fee_include'];
+            $data['fee_exclude'] = $detail['fee_exclude'];
+            $data['cancel_info'] = $detail['cancel_info'];
+
+            $fees = T::$U->db->get_where('group_fee_detail',['group_id'=>$group_id])->result_array();
+            $data['fees'] = $fees;
+
+        }
+        sys_succeed(null, $data);
+    }
+
+    public function order(){
+        $post = T::$U->post;
+        if(!empty($post['group_id']) && !empty($post['fee_id'])){
+            $group = T::$U->db->get_where('product_group',['id'=>$post['group_id']])->row_array();
+            $fee = T::$U->db->get_where('group_fee_detail',['id'=>$post['fee_id']])->row_array();
+
+            $order = [
+                'name'=>$post['name'],
+                'phone'=>$post['phone'],
+                'group_id'=>$post['group_id'],
+                'fee_id'=>$post['fee_id'],
+                'room_type'=>$fee['room_type'],
+                'location'=>$fee['location'],
+                'price'=>$fee['price'],
+                'duoren_price'=>$fee['duoren_price'],
+                'dep_date'=>$group['dep_date'],
+                'use_dep_date'=>$post['use_dep_date'],
+                'use_room_type'=>$post['use_room_type'],
+                'use_price'=>$post['use_price'],
+                'use_duoren_price'=>$post['use_duoren_price']
+            ];
+
+            T::$U->db->insert('order',$order);
+        }
+        sys_succeed(null);
+    }
 }

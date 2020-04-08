@@ -25,4 +25,17 @@ class Product extends TU_Controller {
             }
         }
     }
+
+    public function recommand(){
+        $post = T::$U->post;
+        if(empty($post['id'])){
+            sys_error(i('MISS.PARAM'));
+        }
+        $set = 1;
+        if($post['is_recom']>0){
+            $set = 0;
+        }
+        T::$U->db->update($this->table,['is_recom'=>$set],['id'=>$post['id']]);
+        sys_succeed(i('EXEC.SUC'));
+    }
 }

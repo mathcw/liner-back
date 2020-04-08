@@ -15,6 +15,9 @@ class ProductAction
             'perm_read'=> ['/productStore/Ticket/read_modify','/productStore/Youlun/read_modify','/productStore/Helun/read_modify'],
             'perm_submit'=>['/productStore/Ticket/submit','/productStore/Youlun/submit','/productStore/Helun/submit'],
         ],
+        '设为首页推荐产品'=>[
+            'submit' =>   ['url'=>'/productStore/Product/recommand']
+        ],
         '新增团期'=>[
             'submit' =>   ['url'=>'/productStore/Group/submit']
         ],

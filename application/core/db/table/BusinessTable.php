@@ -27,6 +27,7 @@ class BusinessTable
             'country' => ['type' => '*   |varchar(16)', 'text' => ['国家', 'country']],
             'name' => ['type' => '*   |varchar(45)', 'text' => ['城市', 'city']],
             'code' => ['type' => '    |varchar(16)', 'text' => ['城市代码', 'code']],
+            'pic'=>    ['type'=>'      |varchar(255)','text'=>['展示图片','pic']],
             'state' => ['type' => "    |tinyint(4) DEFAULT '1'", 'text' => ['状态 ', 'state']],
             'last_update' => ['type' => 'stamp|', 'text' => ['最后更新', 'last update']],
         ], [

@@ -16,9 +16,49 @@ class Ticket extends TU_Controller {
             $base_info['kind'] = PD_KIND_DAN;
             T::$U->db->insert($this->table,$base_info);
             $pd_id = T::$U->db->insert_id();
+            if (!empty($base_info['dep_city_id'])) {
+                T::$U->db->limit(1);
+                $q = T::$U->db->select('id')->get_where('pd_dep_city', ['city_id' => $base_info['dep_city_id']])->row_array();
+                if (empty($q)) {
+                    T::$U->db->insert('pd_dep_city', ['city_id' => $base_info['dep_city_id']]);
+                }
+            }
+            if (!empty($base_info['destination'])) {
+                T::$U->db->limit(1);
+                $q = T::$U->db->select('id')->get_where('pd_des_city', ['city_id' => $base_info['destination']])->row_array();
+                if (empty($q)) {
+                    T::$U->db->insert('pd_des_city', ['city_id' => $base_info['destination']]);
+                }
+            }
         }else{
             //update
-            T::$U->db->update($this->table,$post['baseInfo'],['id'=>$post['id']]);
+            $base_info = $post['baseInfo'];
+            $old = T::$U->db->select('dep_city_id,destination')->get_where($this->table, ['id' => $post['id']])->row_array();
+            $old_dep_rc = T::$U->db->select('id')->get_where($this->table, ['dep_city_id' => $old['dep_city_id']])->row_array();
+            if (empty($old_dep_rc)) {
+                T::$U->db->delete('pd_dep_city', ['city_id' => $old['dep_city_id']]);
+            }
+
+            $old_dep_rc = T::$U->db->select('id')->get_where($this->table, ['destination' => $old['destination']])->row_array();
+            if (empty($old_dep_rc)) {
+                T::$U->db->delete('pd_des_city', ['city_id' => $old['destination']]);
+            }
+
+            if (!empty($base_info['dep_city_id'])) {
+                T::$U->db->limit(1);
+                $q = T::$U->db->select('id')->get_where('pd_dep_city', ['city_id' => $base_info['dep_city_id']])->row_array();
+                if (empty($q)) {
+                    T::$U->db->insert('pd_dep_city', ['city_id' => $base_info['dep_city_id']]);
+                }
+            }
+            if (!empty($base_info['destination'])) {
+                T::$U->db->limit(1);
+                $q = T::$U->db->select('id')->get_where('pd_des_city', ['city_id' => $base_info['destination']])->row_array();
+                if (empty($q)) {
+                    T::$U->db->insert('pd_des_city', ['city_id' => $base_info['destination']]);
+                }
+            }
+            T::$U->db->update($this->table,$base_info,['id'=>$post['id']]);
             
             $pd_id = $post['id'];
             //delete

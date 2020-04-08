@@ -27,11 +27,28 @@ class CruiseShip extends TU_Controller {
             //create
             T::$U->db->insert($this->table,$post['baseInfo']);
             $ship_id = T::$U->db->insert_id();
+            $cruise_company_id = $post['baseInfo']['cruise_company_id'];
+            T::$U->db->set('ship_num','ship_num+1',false);
+            T::$U->db->where('id',$cruise_company_id );
+            T::$U->db->update('cruise_company');
         }else{
             //update
             T::$U->db->update($this->table,$post['baseInfo'],['id'=>$post['id']]);
             
             $ship_id = $post['id'];
+
+            $cruise_company_id = $post['baseInfo']['cruise_company_id'];
+            $q = T::$U->db->select('cruise_company_id')->get_where($this->table,['id'=>$ship_id])->row_array();
+            $old_company_id = $q['cruise_company_id'];
+            if($cruise_company_id != $old_company_id){
+                T::$U->db->set('ship_num','ship_num+1',false);
+                T::$U->db->where('id',$cruise_company_id );
+                T::$U->db->update('cruise_company');
+                T::$U->db->set('ship_num','ship_num-1',false);
+                T::$U->db->where('id',$old_company_id );
+                T::$U->db->update('cruise_company');
+            }
+
             //delete
             T::$U->db->delete('ship_des',['ship_id'=>$ship_id]);
             T::$U->db->delete('ship_pic',['ship_id'=>$ship_id]);
@@ -166,6 +183,7 @@ class CruiseShip extends TU_Controller {
                     T::$U->db->insert_batch('ship_layout_pic',$arr);
             }
         }
+
         T::$U->db->trans_complete();
         
         sys_succeed(i('SAVE.SUC'));

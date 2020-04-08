@@ -16,6 +16,10 @@ class ProductView
                     'select' => ['name','cruise_company_id','ship_id','pd_num','kind','night'
                     ,'day','destination','dep_city_id']
                 ],
+                'cruise_ship c'=>[
+                    'cond' => ['b.ship_id'=>'id'],
+                    'select' => ['level']
+                ]
             ]
         ],
     ];

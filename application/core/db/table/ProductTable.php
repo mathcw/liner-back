@@ -21,6 +21,7 @@ class ProductTable
             'night'=>           ['type'=>'    |int(11)',     'text'=>['晚数','night']],
             'kind'=>            ['type'=>'   *|tinyint(4)',  'text'=>['产品种类','kind']],
             'group_count'=>     ['type'=>'    |int(11)',     'text'=>['团期数','group count']],
+            'is_recom'=>        ['type'=>'    |tinyint(4)',  'text'=>['是否推荐','recom']],    
             'last_update' =>    ['type'=>'stamp|',           'text'=>['最后更新',   'last update']],
         ],[
             'pk' => 'PRIMARY KEY (`id`)',
@@ -105,10 +106,13 @@ class ProductTable
             'dep_date'=>            ['type'=> ' *|date','text'=>['出发日期','dep_date']],
             'min_duoren_price'=>    ['type'=> '     |varchar(255)','text'=>['三/四最低价','min price']],
             'min_price'=>           ['type'=> '     |decimal(16,2)','text'=>['一/二最低价','min price']],
+            'create_at'=>           ['type' => 'stamp1|', 'text' => ['创建时间', 'create_at']],
+            'order_nums'=>          ['type'=>  '    |int(11)','text'=>['销量','order number']],
             'last_update' =>        ['type' => 'stamp|', 'text' => ['最后更新', 'last update']],
         ], [
             'pk' => 'PRIMARY KEY (`id`)',
-            'product_idx'=>      'KEY `product_idx` (`product_id`)' 
+            'product_idx'=>      'KEY `product_idx` (`product_id`)' ,
+            'create_at_idx'=>      'KEY `create_at_idx` (`create_at`)' ,
         ]],
 
         // 团期价格
@@ -123,6 +127,33 @@ class ProductTable
         ], [
             'pk' => 'PRIMARY KEY (`id`)',
             'group_idx'=>      'KEY `group_idx` (`group_id`)' 
+        ]],
+
+        'pd_dep_city'=>[[
+            'id' =>                 ['type' => 'id  |', 'text' => ['主键', 'identity']],
+            'city_id'=>             ['type' => 'ref*|','text' => ['城市', 'city']],
+        ], [
+            'pk' => 'PRIMARY KEY (`id`)',
+            'city_idx'=>      'KEY `city_idx` (`city_id`)' 
+        ]],
+
+        'pd_des_city'=>[[
+            'id' =>                 ['type' => 'id  |', 'text' => ['主键', 'identity']],
+            'city_id'=>             ['type' => 'ref*|','text' => ['城市', 'city']],
+        ], [
+            'pk' => 'PRIMARY KEY (`id`)',
+            'city_idx'=>      'KEY `city_idx` (`city_id`)' 
+        ]],
+
+        'user_comment' => [[
+            'id' =>                 ['type' => 'id  |', 'text' => ['主键', 'identity']],
+            'name'=>                ['type'=>  '    |varchar(255)','text'=>['姓名','name']],
+            'phone'=>               ['type'=>  '    |varchar(255)','text'=>['电话','mobile']],
+            'weChat'=>              ['type'=>  '    |varchar(255)','text'=>['微信','wechat']],
+            'mail'=>                ['type'=>  '    |varchar(255)','text'=>['mail','mail']],
+            'comment'=>             ['type'=>  '    |text','text'=>['留言','comment']],
+        ], [
+            'pk' => 'PRIMARY KEY (`id`)'
         ]],
     ];
 }

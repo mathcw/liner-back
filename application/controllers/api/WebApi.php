@@ -69,7 +69,7 @@ class WebApi extends TU_Controller
                 foreach ($dan as &$ref) {
                     $ref['pic'] = !empty($pics[$ref['ship_id']]) ? $pics[$ref['ship_id']] : '';
                     T::$U->db->where('product_id', $ref['id']);
-                    T::$U->db->select('min(min_duoren_price) as price');
+                    T::$U->db->select('min(min_price) as price');
                     $q = T::$U->db->get_where('product_group')->row_array();
                     $ref['price'] = $q['price'];
                 }
@@ -84,7 +84,7 @@ class WebApi extends TU_Controller
                 foreach ($you as &$ref) {
                     $ref['pic'] = !empty($pics[$ref['id']]) ? $pics[$ref['id']] : '';
                     T::$U->db->where('product_id', $ref['id']);
-                    T::$U->db->select('min(min_duoren_price) as price');
+                    T::$U->db->select('min(min_price) as price');
                     $q = T::$U->db->get_where('product_group')->row_array();
                     $ref['price'] = $q['price'];
                 }
@@ -101,7 +101,7 @@ class WebApi extends TU_Controller
                 foreach ($he as &$ref) {
                     $ref['pic'] = !empty($pics[$ref['id']]) ? $pics[$ref['id']] : '';
                     T::$U->db->where('product_id', $ref['id']);
-                    T::$U->db->select('min(min_duoren_price) as price');
+                    T::$U->db->select('min(min_price) as price');
                     $q = T::$U->db->get_where('product_group')->row_array();
                     $ref['price'] = $q['price'];
                 }
@@ -176,6 +176,41 @@ class WebApi extends TU_Controller
         ]; 
 
         list($total, $items) = $this->list_read($table, $post, $allow_cond);
+
+        if(!empty($items)){
+            $dan_g = [];
+            $he_you_g = [];
+            foreach($items as $item){
+                if($item['kind'] == PD_KIND_YOU ||$item['kind'] == PD_KIND_HE){
+                    $he_you_g[] = $item['product_id'];
+                }else{
+                    $dan_g[] = $item['ship_id'];
+                }
+            }
+            $pics = [];
+            if(!empty($he_you_g)){
+                T::$U->db->where_in('product_id',$he_you_g);
+                $pics = T::$U->db->distinct()->select('product_id,pic')->get_where('product_pic')->result_array();                
+            }
+            $ship_pics = [];
+            if(!empty($dan_g)){
+                T::$U->db->where_in('product_id',$he_you_g);
+                $pics = T::$U->db->distinct()->select('product_id,pic')->get_where('product_pic')->result_array(); 
+                $pics = array_column($pics,'pic','product_id');
+                T::$U->db->where_in('ship_id',$dan_g);
+                $ship_pics = T::$U->db->distinct()->select('ship_id,pic')->get_where('ship_pic')->result_array();
+                $ship_pics = array_column($ship_pics,'pic','ship_id');
+            }
+
+            foreach($items as &$ref){
+                if($ref['kind'] == PD_KIND_YOU ||$ref['kind'] == PD_KIND_HE){
+                    $ref['pic'] = empty($pics[$ref['product_id']])?'':$pics[$ref['product_id']];
+                }else{
+                    $ref['pic'] = empty($ship_pics[$ref['product_id']])?'':$ship_pics[$ref['product_id']];
+                }
+            }
+            
+        }
         sys_succeed(null, [
             'total' => $total,
             'data' => $items,
@@ -276,6 +311,16 @@ class WebApi extends TU_Controller
             $data['fees'] = $fees;
 
         }
+
+        T::$U->db->limit(6);
+        T::$U->db->where('dep_date>=',date('Y-m-d'));
+        $related_groups = T::$U->db->get_where('product_group_view',['product_id'=>$get['id']])->result_array();
+        foreach($related_groups as &$ref){
+            $ref['pic'] = $data['pic'];
+        }
+
+        $data['其他航线'] = $related_groups;
+
         sys_succeed(null, $data);
     }
 

@@ -27,6 +27,13 @@ class ProductAction
         ],
         '删除班期'=>[
             'submit' =>   ['url'=>'/productStore/Group/destroy']
+        ],
+
+        '咨询详情'=>[
+            'read' =>     ['url'=>'/order/Zixun/read_see'],
+        ],
+        '订单详情'=>[
+            'read' =>   ['url'=>'/order/Order/read_see']
         ]
     ];
 }

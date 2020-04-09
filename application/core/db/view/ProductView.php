@@ -22,5 +22,20 @@ class ProductView
                 ]
             ]
         ],
+
+        'order_view' => [
+            'select' => ['*'],
+            'root' => 'order a',
+            'join' => [
+                'product_group b' => [
+                    'cond' => ['a.group_id'=>'id'],
+                    'select' => ['product_id']
+                ],
+                'product c'=>[
+                    'cond' => ['b.product_id'=>'id'],
+                    'select' => ['name pd_name']
+                ]
+            ]
+        ],
     ];
 }

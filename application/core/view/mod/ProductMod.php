@@ -31,5 +31,24 @@ class ProductMod
             ],
         ],
 
+        '客户咨询'=> [
+            'type'=>1,
+            'read' => ['url' => '/order/Zixun/read'],
+            'search' => [
+                'name' => ['type' => 'Trim'],
+                'pd_name'=>['type' => 'Trim'],
+            ],
+        ],
+
+        '客户订单'=> [
+            'type'=>1,
+            'read' => ['url' => '/order/Order/read'],
+            'search' => [
+                'name' => ['type' => 'Trim'],
+                'pd_name'=>['type' => 'Trim'],
+
+            ],
+        ],
+
     ];
 }

@@ -227,6 +227,89 @@ class WebApi extends TU_Controller
         ]);
     }
 
+    public function ship(){
+        $post = T::$U->post;
+        $table = 'cruise_ship';
+        list($total, $items) = $this->list_read($table, $post, []);
+
+        if(!empty($items)){
+            $ship_ids = array_column($items,'id');
+            $pics = [];
+            if(!empty($ship_ids)){
+                T::$U->db->where_in('ship_id',$ship_ids);
+                $pics = T::$U->db->distinct()->select('ship_id,pic')->get_where('ship_pic')->result_array();  
+            }
+            foreach($items as &$ref){
+                $ref['pic'] = empty($pics[$ref['id']])?'':$pics[$ref['id']];
+            }
+        }
+        sys_succeed(null, [
+            'total' => $total,
+            'data' => $items,
+        ]);
+    }
+
+    public function shipDetail(){
+        $get = T::$U->get;
+        if(empty($get['id'])){
+            sys_error('缺少参数');
+        }
+        
+        $data = T::$U->db->get_where('cruise_ship',['id'=>$get['id']])->row_array();
+        
+        if(empty($data)){
+            sys_error('没有数据');
+        }
+
+        $detail = T::$U->db->get_where('ship_des',['ship_id'=>$data['id']])->row_array();
+
+        $data['des'] = $detail['des'];
+
+        T::$U->db->where('ship_id',$data['id']);
+        $pics = T::$U->db->select('pic')->get_where('ship_pic')->result_array(); 
+
+        $data['邮轮图片'] = empty($pics)?[]:$pics;
+
+        $rooms = T::$U->db->get_where('ship_room',['ship_id'=>$data['id']])->result_array();
+        foreach ($rooms as &$room) {
+            $room_pic_arr = T::$U->db->select('pic')->get_where('ship_room_pic',['room_id'=>$room['id']])->result_array();
+            $room['pic_arr'] = array_column($room_pic_arr,'pic');
+        }
+        $data['房型'] = $rooms;
+
+        $foods = T::$U->db->get_where('ship_food',['ship_id'=>$data['id']])->result_array();
+        foreach ($foods as &$food) {
+            $food_pic_arr = T::$U->db->select('pic')->get_where('ship_food_pic',['food_id'=>$food['id']])->result_array();
+            $food['pic_arr'] = array_column($food_pic_arr,'pic');
+        }
+        $data['餐饮'] = $foods;
+
+        $games = T::$U->db->get_where('ship_game',['ship_id'=>$data['id']])->result_array();
+        foreach ($games as &$game) {
+            $game_pic_arr = T::$U->db->select('pic')->get_where('ship_game_pic',['game_id'=>$game['id']])->result_array();
+            $game['pic_arr'] = array_column($game_pic_arr,'pic');
+        }
+        $data['娱乐'] = $games;
+
+        T::$U->db->limit(6);
+        T::$U->db->where('dep_date>=',date('Y-m-d'));
+        $related_groups = T::$U->db->get_where('product_group_view',['ship_id'=>$data['id']])->result_array();
+        foreach($related_groups as &$ref){
+            if($ref == PD_KIND_DAN){
+                $ref['pic'] = $data['pic'];
+            }else{
+                T::$U->db->where('product_id',$ref['product_id']);
+                T::$U->db->limit(1);
+                $q = T::$U->db->select('pic')->get_where('product_pic')->row_array(); 
+                $ref['pic'] = $q['pic'];
+            }
+        }
+
+        $data['相关航线'] = $related_groups;
+
+        sys_succeed(null, $data);
+    }
+
     public function comment(){
         $post =  T::$U->post;
         if(!empty($post)){

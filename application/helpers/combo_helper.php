@@ -14,6 +14,7 @@ function tu_update_enum($force=false) {
     
     $types = array(
         'RoomKind'=>                ['table'=>'comm_dict',     'filter'=>['state'=> 1,'type_id'=>2],'key_fd'=>'id','value_fd'=>'name'],
+        'PdTheme'=>                 ['table'=>'comm_dict',     'filter'=>['state'=> 1,'type_id'=>3],'key_fd'=>'id','value_fd'=>'name'],
         'Auth'=>                    ['table'=>'auth',           'filter'=>['state'=>1],'key_fd'=>'id','value_fd'=>'name'],
         'Account' =>                ['table'=>'account',  'filter'=>['state' => 1],'key_fd'=>'id','value_fd'=>'name'],
         'CruiseCompany' =>          ['table'=>'cruise_company',  'filter'=>['state' => 1],'key_fd'=>'id','value_fd'=>'name'],

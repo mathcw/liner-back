@@ -64,7 +64,18 @@ class Ticket extends TU_Controller {
             //delete
             T::$U->db->delete('ticket_itin',['product_id'=>$pd_id]);
             T::$U->db->delete('product_detail',['product_id'=>$pd_id]);
+            T::$U->db->delete('product_theme',['pd_id'=>$pd_id]);
 
+        }
+        $theme_arr = [];
+        if(!empty($post['theme_arr'])){
+            foreach($post['theme_arr'] as $theme){
+                $theme_arr[] = [
+                    'pd_id' => $pd_id,
+                    'theme_id' =>$theme 
+                ];
+            }
+            T::$U->db->insert_batch('product_theme',$theme_arr);
         }
         if(!empty($post['itinInfo'])){
             $itin_info = $post['itinInfo'];
@@ -96,18 +107,22 @@ class Ticket extends TU_Controller {
         if (empty($get['id'])) {
             sys_error(i('MISS.PARAM'));
         }
-        $ship_id = $get['id'];
-        $base_info = T::$U->db->get_where($this->table,['id'=>$ship_id])->row_array();
+        $pd_id = $get['id'];
+        $base_info = T::$U->db->get_where($this->table,['id'=>$pd_id])->row_array();
         T::$U->db->order_by('order');
         $ticket_itin = T::$U->db->get_where('ticket_itin',['product_id'=>$get['id']])->result_array();
         $detail_info = T::$U->db->get_where('product_detail',['product_id'=>$get['id']])->row_array();
 
         $pic = T::$U->db->select('pic')->get_where('ship_pic',['ship_id'=>$base_info['ship_id']])->result_array();
         $pic = array_column($pic,'pic');
+        T::$U->db->select('theme_id');
+        $theme_arr = T::$U->db->get_where('product_theme',['pd_id'=>$pd_id])->result_array();
+        $theme_arr = array_column($theme_arr,'theme_id');
         sys_succeed(null,[
             'baseInfo' => $base_info,
             'ticket_itin'=>$ticket_itin,
             'pic'=>$pic??[],
+            'theme_arr'=>$theme_arr ?? [],
             'bookInfo'=>$detail_info['book_info']??'',
             'feeInfo'=>$detail_info['fee_info']??'',
             'feeInclude'=>$detail_info['fee_include']??'',

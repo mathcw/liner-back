@@ -27,6 +27,17 @@ class ProductTable
             'pk' => 'PRIMARY KEY (`id`)',
         ]],
 
+        'product_theme' => [[
+            'id' =>             ['type'=>'id  |',            'text'=>['主键',     'identity']],
+            'pd_id'=>           ['type'=>'ref*|',            'text'=>['产品','dep city']],
+            'theme_id'=>        ['type'=>'ref*|',            'text'=>['产品','dep city']],
+            'last_update' =>    ['type'=>'stamp|',           'text'=>['最后更新',   'last update']],
+        ],[
+            'pk' => 'PRIMARY KEY (`id`)',
+            'pd_idx'=>      'KEY `pd_idx` (`pd_id`)' ,
+            'theme_idx'=>      'KEY `theme_idx` (`theme_id`)' 
+        ]],
+
         // 单船票行程
         'ticket_itin'  => [[
             'id' =>                 ['type' => 'id  |', 'text' => ['主键', 'identity']],

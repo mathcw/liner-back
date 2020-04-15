@@ -14,7 +14,7 @@ class ProductView
                 'product b' => [
                     'cond' => ['a.product_id'=>'id'],
                     'select' => ['name','cruise_company_id','ship_id','pd_num','kind','night'
-                    ,'day','destination','dep_city_id']
+                    ,'day','destination','dep_city_id','theme']
                 ],
                 'cruise_ship c'=>[
                     'cond' => ['b.ship_id'=>'id'],

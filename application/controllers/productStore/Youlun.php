@@ -70,7 +70,18 @@ class Youlun extends TU_Controller
             T::$U->db->delete('product_pic', ['product_id' => $pd_id]);
             T::$U->db->delete('itin_pic', ['product_id' => $pd_id]);
             T::$U->db->delete('product_detail', ['product_id' => $pd_id]);
+            T::$U->db->delete('product_theme',['pd_id'=>$pd_id]);
 
+        }
+        $theme_arr = [];
+        if(!empty($post['theme_arr'])){
+            foreach($post['theme_arr'] as $theme){
+                $theme_arr[] = [
+                    'pd_id' => $pd_id,
+                    'theme_id' =>$theme 
+                ];
+            }
+            T::$U->db->insert_batch('product_theme',$theme_arr);
         }
         $pic_arr = [];
         if (!empty($post['pic_arr'])) {
@@ -139,8 +150,8 @@ class Youlun extends TU_Controller
         if (empty($get['id'])) {
             sys_error(i('MISS.PARAM'));
         }
-        $ship_id = $get['id'];
-        $base_info = T::$U->db->get_where($this->table, ['id' => $ship_id])->row_array();
+        $pd_id = $get['id'];
+        $base_info = T::$U->db->get_where($this->table, ['id' => $pd_id])->row_array();
         T::$U->db->order_by('order');
         $itins = T::$U->db->get_where('product_itin', ['product_id' => $get['id']])->result_array();
         foreach ($itins as &$itin) {
@@ -151,10 +162,14 @@ class Youlun extends TU_Controller
 
         $pic = T::$U->db->select('pic')->get_where('product_pic', ['product_id' => $get['id']])->result_array();
         $pic = array_column($pic, 'pic');
+        T::$U->db->select('theme_id');
+        $theme_arr = T::$U->db->get_where('product_theme',['pd_id'=>$pd_id])->result_array();
+        $theme_arr = array_column($theme_arr,'theme_id');
         sys_succeed(null, [
             'baseInfo' => $base_info,
             'itinInfo' => $itins,
             'pic_arr' => $pic ?? [],
+            'theme_arr'=>$theme_arr ?? [],
             'brightSpot' => $detail_info['bright_spot'] ?? '',
             'bookInfo' => $detail_info['book_info'] ?? '',
             'feeInfo' => $detail_info['fee_info'] ?? '',

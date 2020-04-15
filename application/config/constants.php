@@ -107,4 +107,5 @@ define('APP_NAME', 'TY_LINER');
 define('PD_KIND_DAN',1);
 define('PD_KIND_YOU',2);
 define('PD_KIND_HE',3);
+define('PD_KIND_TOUR',4);
 

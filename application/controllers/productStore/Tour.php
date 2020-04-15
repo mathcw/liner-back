@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Helun extends TU_Controller {
+class Tour extends TU_Controller {
     public $table = 'product';
 
     public function submit(){
@@ -13,7 +13,7 @@ class Helun extends TU_Controller {
         if(empty($post['id'])){
             //create
             $base_info = $post['baseInfo'];
-            $base_info['kind'] = PD_KIND_HE;
+            $base_info['kind'] = PD_KIND_TOUR;
             T::$U->db->insert($this->table,$base_info);
             $pd_id = T::$U->db->insert_id();
             if (!empty($base_info['dep_city_id'])) {
@@ -68,6 +68,7 @@ class Helun extends TU_Controller {
             T::$U->db->delete('itin_pic',['product_id'=>$pd_id]);
             T::$U->db->delete('product_detail',['product_id'=>$pd_id]);
             T::$U->db->delete('product_theme',['pd_id'=>$pd_id]);
+
 
         }
         $pic_arr = [];
@@ -159,6 +160,11 @@ class Helun extends TU_Controller {
 
         $pic = T::$U->db->select('pic')->get_where('product_pic',['product_id'=>$get['id']])->result_array();
         $pic = array_column($pic,'pic');
+
+        T::$U->db->select('theme');
+        T::$U->db->where('kind',PD_KIND_TOUR);
+        $q = T::$U->db->get_where('product')->result_array();
+
         sys_succeed(null,[
             'baseInfo' => $base_info,
             'itinInfo'=>$itins,

@@ -507,7 +507,22 @@ class WebApi extends TU_Controller
             sys_error('缺少参数');
         }
         $data = T::$U->db->get_where('cruise_company', ['id' => $get['id']])->row_array();
+        T::$U->db->limit(6);
+        T::$U->db->where('dep_date>=', date('Y-m-d'));
+        $related_groups = T::$U->db->get_where('product_group_view', ['cruise_company_id' => $get['id']])->result_array();
+        foreach ($related_groups as &$ref) {
+            if ($ref == PD_KIND_DAN) {
+                $ref['pic'] = $data['pic'];
+            } else {
+                T::$U->db->where('product_id', $ref['product_id']);
+                T::$U->db->limit(1);
+                $q = T::$U->db->select('pic')->get_where('product_pic')->row_array();
+                $ref['pic'] = $q['pic'];
+            }
+        }
 
+        $data['相关航线'] = $related_groups;
+        sys_succeed(null, $data);
     }
 
     public function order()

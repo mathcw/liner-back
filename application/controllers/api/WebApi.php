@@ -274,12 +274,10 @@ class WebApi extends TU_Controller
             if (!empty($he_you_g)) {
                 T::$U->db->where_in('product_id', $he_you_g);
                 $pics = T::$U->db->distinct()->select('product_id,pic')->get_where('product_pic')->result_array();
+                $pics = array_column($pics, 'pic', 'product_id');
             }
             $ship_pics = [];
             if (!empty($dan_g)) {
-                T::$U->db->where_in('product_id', $dan_g);
-                $pics = T::$U->db->distinct()->select('product_id,pic')->get_where('product_pic')->result_array();
-                $pics = array_column($pics, 'pic', 'product_id');
                 T::$U->db->where_in('ship_id', $dan_g);
                 $ship_pics = T::$U->db->distinct()->select('ship_id,pic')->get_where('ship_pic')->result_array();
                 $ship_pics = array_column($ship_pics, 'pic', 'ship_id');
@@ -292,7 +290,7 @@ class WebApi extends TU_Controller
                 $q = T::$U->db->select('pd_id,group_concat(theme_id) theme')->get_where('product_theme')->result_array();
                 $themes = array_column($q,'theme','pd_id');
             }
-
+            
             foreach ($items as &$ref) {
                 if ($ref['kind'] == PD_KIND_YOU || $ref['kind'] == PD_KIND_HE || $ref['kind'] == PD_KIND_TOUR) {
                     $ref['pic'] = empty($pics[$ref['product_id']]) ? '' : $pics[$ref['product_id']];

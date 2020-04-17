@@ -330,6 +330,7 @@ class WebApi extends TU_Controller
             if (!empty($ship_ids)) {
                 T::$U->db->where_in('ship_id', $ship_ids);
                 $pics = T::$U->db->distinct()->select('ship_id,pic')->get_where('ship_pic')->result_array();
+                $pics = array_column($pics,'pic','ship');
             }
             foreach ($items as &$ref) {
                 $ref['pic'] = empty($pics[$ref['id']]) ? '' : $pics[$ref['id']];

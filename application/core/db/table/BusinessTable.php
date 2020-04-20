@@ -64,6 +64,7 @@ class BusinessTable
             'length'=>              ['type'=>'      |int(11)','text'=>['长度','length']],
             'width'=>               ['type'=>'      |int(11)','text'=>['宽度','width']],
             'speed'=>               ['type'=>'      |int(11)','text'=>['航速','speed']],
+            'tonnage'=>             ['type'=>'      |int(11)','text'=>['航速','speed']],
             'kind' =>               ['type'=>'     *|tinyint(4)','text'=>['邮轮类型','kind']],
             'video'=>               ['type'=>'      |varchar(255)','text'=>['简介视频','video']],
             'state' =>              ['type' => "    |tinyint(4) DEFAULT '1'", 'text' => ['状态 ', 'state']],

@@ -39,7 +39,7 @@ class Group extends TU_Controller {
             foreach ($group['price_arr'] as &$value) {
                 $value['group_id'] = $group_id;
                 if(empty($value['duoren_price'])){
-                    if($value['duoren_price'] !== 0){
+                    if(!isset($value['duoren_price'])){
                         $value['duoren_price'] = '';
                     }
                 }

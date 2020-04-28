@@ -84,6 +84,8 @@ function getSignPackage($url)
     $appId = 'wx8f0ad0cf0ee7a6da';
     $appSecret = '5d7c67ef9e1d305cad82b25be2b60008';
     $jsapiTicket = getJsApiTicket();
+    log_dump(json_encode($jsapiTicket));
+    log_dump(1);
     if(empty($jsapiTicket)){
         return array(
             "appId" => '',

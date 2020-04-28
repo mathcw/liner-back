@@ -12,7 +12,7 @@ class WebApi extends TU_Controller
 
         tu_pub_init();
         $method = T::$U->router->fetch_method();
-        if(!in_array($method,['init'])){
+        if(!in_array($method,['init','get_weixin_sign'])){
             $raw = file_get_contents("php://input");
             $md5 = md5($_SERVER['REMOTE_ADDR'].$_SERVER['REQUEST_URI'].'$$'.$raw);
             if(T::$U->redis->get($md5)){
@@ -580,5 +580,15 @@ class WebApi extends TU_Controller
             T::$U->db->insert('order', $order);
         }
         sys_succeed(null);
+    }
+
+    public function get_weixin_sign(){
+        $post = T::$U->post;
+        if(empty($post['url'])){
+            sys_succeed(null,['appId'=>'']);
+            return;
+        }
+        $sign =getSignPackage($post['url']);
+        sys_succeed(null,$sign);
     }
 }

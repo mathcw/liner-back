@@ -60,7 +60,7 @@ class TU_Controller {
         T::$H = new stdClass();
 
 
-        T::$U->load->helper(['init','common','combo','util','url','business']);
+        T::$U->load->helper(['init','common','combo','util','url','business','weixin']);
         init_req();
 
         switch ($this->init_type) {

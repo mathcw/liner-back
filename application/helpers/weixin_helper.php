@@ -79,8 +79,9 @@ function getJsApiTicket()
     return $ticket;
 }
 
-function getSignPackage($url)
+function getSignPackage($post_url)
 {
+    $url = urldecode($post_url);
     $appId = 'wx8f0ad0cf0ee7a6da';
     $appSecret = '5d7c67ef9e1d305cad82b25be2b60008';
     $jsapiTicket = getJsApiTicket();

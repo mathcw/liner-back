@@ -161,10 +161,6 @@ class Tour extends TU_Controller {
         $pic = T::$U->db->select('pic')->get_where('product_pic',['product_id'=>$get['id']])->result_array();
         $pic = array_column($pic,'pic');
 
-        T::$U->db->select('theme');
-        T::$U->db->where('kind',PD_KIND_TOUR);
-        $q = T::$U->db->get_where('product')->result_array();
-
         sys_succeed(null,[
             'baseInfo' => $base_info,
             'itinInfo'=>$itins,

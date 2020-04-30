@@ -445,7 +445,7 @@ class WebApi extends TU_Controller
         $pd_id = $data['product_id'];
         $group_id = $data['id'];
         $ship_id = $data['ship_id'];
-        if ($data['kind'] == PD_KIND_YOU || $data['kind'] == PD_KIND_HE || $data['kind'] == PD_KIND_DAN) {
+        if ($data['kind'] == PD_KIND_YOU || $data['kind'] == PD_KIND_HE || $data['kind'] == PD_KIND_TOUR) {
 
             $pics = T::$U->db->select('pic')->get_where('product_pic', ['product_id' => $pd_id])->result_array();
             $data['pic'] = empty($pics) ? '' : $pics[0]['pic'];

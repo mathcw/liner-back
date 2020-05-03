@@ -15,6 +15,10 @@ class ProductAction
             'perm_read' => ['/productStore/Ticket/read_modify', '/productStore/Youlun/read_modify', '/productStore/Helun/read_modify', '/productStore/Tour/read_modify'],
             'perm_submit' => ['/productStore/Ticket/submit', '/productStore/Youlun/submit', '/productStore/Helun/submit', '/productStore/Tour/submit'],
         ],
+        '复制产品' => [
+            'perm_read' => ['/productStore/Ticket/read_copy', '/productStore/Youlun/read_copy', '/productStore/Helun/read_copy', '/productStore/Tour/read_copy'],
+            'perm_submit' => ['/productStore/Ticket/submit', '/productStore/Youlun/submit', '/productStore/Helun/submit', '/productStore/Tour/submit'],
+        ],
         '设为首页推荐产品' => [
             'submit' => ['url' => '/productStore/Product/recommand'],
         ],

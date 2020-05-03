@@ -20,16 +20,20 @@ class Account extends TU_Controller {
 		sys_succeed(i('SAVE.SUC'));
     }
 
-    public function set_password() {
+    public function set_password(){
         $post = T::$U->post;
-        if(empty($post['passWord'])){
-            sys_error(('MISS.密码'));
+        if(empty($post['id'])){
+            sys_error(i('MISS.PARAM'));
         }
-        $password = md5($post['passWord']);
+        if(empty($post['password'])){
+            sys_error(i('MISS.PARAM'));
+        }
+
+        $password = md5($post['password']);
 
         T::$U->db->trans_start();
 
-        T::$U->db->update('account',['password'=>$password],['id'=>$_SESSION['account_id']]);
+        T::$U->db->update('account',['password'=>$password],['id'=>$post['id']]);
 
         T::$U->db->trans_complete();
 		sys_succeed(i('SAVE.SUC'));

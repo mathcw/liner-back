@@ -90,7 +90,7 @@ define('MAIN_SVC', 'ENTRY');
 define('MAIN_UID_KEY', 'account_id');
 
 
-define('SESSION_TTL', 1*3600);
+define('SESSION_TTL', 4*3600);
 define('SHARED_SIZE',10000);
 
 define('INIT_DEV', 0);         //公开，       ✘ session

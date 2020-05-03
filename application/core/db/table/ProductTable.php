@@ -116,7 +116,7 @@ class ProductTable
             'product_id'=>          ['type' => 'ref*  |','text' => ['产品', 'ship']],
             'dep_date'=>            ['type'=> ' *|date','text'=>['出发日期','dep_date']],
             'min_duoren_price'=>    ['type'=> '     |varchar(255)','text'=>['三/四最低价','min price']],
-            'min_price'=>           ['type'=> '     |decimal(16,2)','text'=>['一/二最低价','min price']],
+            'min_price'=>           ['type'=> '     |int(11)','text'=>['一/二最低价','min price']],
             'create_at'=>           ['type' => 'stamp1|', 'text' => ['创建时间', 'create_at']],
             'order_nums'=>          ['type'=>  '    |int(11)','text'=>['销量','order number']],
             'last_update' =>        ['type' => 'stamp|', 'text' => ['最后更新', 'last update']],

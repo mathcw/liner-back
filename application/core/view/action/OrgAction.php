@@ -29,6 +29,10 @@ class OrgAction
             'submit' => ['url'=>'/org/Account/set_auth','data'=>['id','auth_id']],
         ],
 
+        '设置账号密码'=>[
+            'submit' => ['url'=>'/org/Account/set_password','data'=>['id','password']],
+        ],
+
         '删除账号'=>[
             'submit'=>['url'=>'/org/Account/destroy','data'=>['id']]
         ],

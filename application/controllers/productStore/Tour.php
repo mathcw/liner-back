@@ -174,4 +174,45 @@ class Tour extends TU_Controller {
             'cancelInfo'=>$detail_info['cancel_info']??'',
         ]);
     }
+
+    public function read_copy(){
+        $get = T::$U->get;
+        if (empty($get['id'])) {
+            sys_error(i('MISS.PARAM'));
+        }
+        $pd_id = $get['id'];
+        $base_info = T::$U->db->get_where($this->table,['id'=>$pd_id])->row_array();
+        unset($base_info['id']);
+
+        T::$U->db->select('theme_id');
+        $theme_arr = T::$U->db->get_where('product_theme',['pd_id'=>$pd_id])->result_array();
+        $theme_arr = array_column($theme_arr,'theme_id');
+        T::$U->db->order_by('order');
+        $itins = T::$U->db->get_where('product_itin',['product_id'=>$get['id']])->result_array();
+        foreach( $itins as &$itin){
+            $pic_arr = T::$U->db->select('pic')->get_where('itin_pic',['itin_id'=>$itin['id']])->result_array();
+            $itin['pic_arr'] = array_column($pic_arr,'pic');
+            unset($itin['id']);
+            unset($itin['product_id']);
+        }
+        $detail_info = T::$U->db->get_where('product_detail',['product_id'=>$get['id']])->row_array();
+        unset($detail_info['id']);
+        unset($detail_info['product_id']);
+        
+        $pic = T::$U->db->select('pic')->get_where('product_pic',['product_id'=>$get['id']])->result_array();
+        $pic = array_column($pic,'pic');
+
+        sys_succeed(null,[
+            'baseInfo' => $base_info,
+            'itinInfo'=>$itins,
+            'theme_arr'=>$theme_arr ?? [],
+            'pic_arr'=>$pic??[],
+            'brightSpot'=>$detail_info['bright_spot']??'',
+            'bookInfo'=>$detail_info['book_info']??'',
+            'feeInfo'=>$detail_info['fee_info']??'',
+            'feeInclude'=>$detail_info['fee_include']??'',
+            'feeExclude'=>$detail_info['fee_exclude']??'',
+            'cancelInfo'=>$detail_info['cancel_info']??'',
+        ]);
+    }
 }

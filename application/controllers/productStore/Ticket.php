@@ -130,4 +130,41 @@ class Ticket extends TU_Controller {
             'cancelInfo'=>$detail_info['cancel_info']??'',
         ]);
     }
+
+    public function read_copy(){
+        $get = T::$U->get;
+        if (empty($get['id'])) {
+            sys_error(i('MISS.PARAM'));
+        }
+        $pd_id = $get['id'];
+        $base_info = T::$U->db->get_where($this->table,['id'=>$pd_id])->row_array();
+        unset($base_info['id']);
+
+        T::$U->db->order_by('order');
+        $ticket_itin = T::$U->db->get_where('ticket_itin',['product_id'=>$get['id']])->result_array();
+        foreach($ticket_itin as &$ref){
+            unset($ref['id']);
+            unset($ref['product_id']);
+        }
+        $detail_info = T::$U->db->get_where('product_detail',['product_id'=>$get['id']])->row_array();
+        unset($detail_info['id']);
+        unset($detail_info['product_id']);
+
+        $pic = T::$U->db->select('pic')->get_where('ship_pic',['ship_id'=>$base_info['ship_id']])->result_array();
+        $pic = array_column($pic,'pic');
+        T::$U->db->select('theme_id');
+        $theme_arr = T::$U->db->get_where('product_theme',['pd_id'=>$pd_id])->result_array();
+        $theme_arr = array_column($theme_arr,'theme_id');
+        sys_succeed(null,[
+            'baseInfo' => $base_info,
+            'ticket_itin'=>$ticket_itin,
+            'pic'=>$pic??[],
+            'theme_arr'=>$theme_arr ?? [],
+            'bookInfo'=>$detail_info['book_info']??'',
+            'feeInfo'=>$detail_info['fee_info']??'',
+            'feeInclude'=>$detail_info['fee_include']??'',
+            'feeExclude'=>$detail_info['fee_exclude']??'',
+            'cancelInfo'=>$detail_info['cancel_info']??'',
+        ]);
+    }
 }

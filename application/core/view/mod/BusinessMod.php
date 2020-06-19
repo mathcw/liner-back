@@ -24,6 +24,11 @@ class BusinessMod
                 'company_name' => ['type' => 'Trim'],
             ],
         ],
+
+        '轮播图设置' => [
+            'type' => 1,
+            'read' => ['url' => '/business/Banner/read'],
+        ],
         '城市设置' => [
             'type' => 1,
             'read' => ['url' => '/business/City/read'],

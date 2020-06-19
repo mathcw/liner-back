@@ -184,5 +184,15 @@ class BusinessTable
             'pk' => 'PRIMARY KEY (`id`)',
             'layout_idx'=>      'KEY `layout_idx` (`layout_id`)' ,
         ]],
+
+        'banner' => [[
+            'id' =>                 ['type' => 'id  |', 'text' => ['主键', 'identity']],
+            'pic' =>                ['type' => '    |text', 'text' => ['图片', 'context']],
+            'url' =>                ['type' => '    |text', 'text'=>['url','url']],
+            'banner_order'=>        ['type'=>  '    |int(11)','text'=>['order','order']],
+            'last_update' =>        ['type' => 'stamp|', 'text' => ['最后更新', 'last update']],
+        ], [
+            'pk' => 'PRIMARY KEY (`id`)'
+        ]],
     ];
 }

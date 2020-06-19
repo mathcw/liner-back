@@ -56,5 +56,20 @@ class BusinessAction
         '启停数据字典'=>[
             'submit' => ['url'=>'/business/CommDct/toggle/state','data'=>['id','state']],     
         ],
+
+
+        '新增轮播图'=>[
+            'submit' =>  ['url'=>'/business/Banner/submit'],
+        ],
+
+        '修改轮播图' => [
+            'submit' =>  ['url'=>'/business/Banner/submit'],
+        ],
+
+        '删除轮播图' => [
+            'submit' =>  ['url'=>'/business/Banner/destroy','data'=>['id']],
+        ],
+
+
     ];
 }

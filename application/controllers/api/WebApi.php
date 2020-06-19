@@ -429,6 +429,19 @@ class WebApi extends TU_Controller
         ]);
     }
 
+    public function banner()
+    {
+        $table = 'banner';
+
+        T::$U->db->limit(6);
+        T::$U->db->order_by('banner_order','desc');
+        T::$U->db->select('url,pic');
+        $q = T::$U->db->get_where('banner')->result_array();
+        sys_succeed(null, [
+            'data' => $q,
+        ]);
+    }
+
     public function detail()
     {
         $get = T::$U->get;

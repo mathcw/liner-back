@@ -47,9 +47,9 @@ def search(url, keyword):
                     if(isclass):
                         isclass = False
                         _rst['class'] = content
-                    if(content.find(u'主讲:') != -1 or content.find(u'主讲：') != -1):
+                    if(content.find('主讲:') != -1 or content.find('主讲：') != -1):
                         isrole = True
-                    elif(content.find(u'课时:') != -1 or content.find(u'课时：') != -1):
+                    elif(content.find('课时:') != -1 or content.find('课时：') != -1):
                         isclass = True
                 return _rst
     return False
@@ -79,8 +79,8 @@ else :
                 outstring = outstring.replace('$py_keyword',item['keyword'])
                 outstring = outstring.replace('$py_role',item['role'])
 
-                out = out + outstring + u"\r\n"
-            print(out.encode())
+                out = out + outstring
+            print(out)
     else :
         print('no result')
 

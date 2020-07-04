@@ -5,7 +5,6 @@ import requests
 import urllib.parse
 import os
 import sys
-import imp
 from bs4 import BeautifulSoup
 from distutils.filelist import findall
 
@@ -54,7 +53,6 @@ def search(url, keyword):
                 return _rst
     return False
 
-imp.reload(sys)
 rst = []
 if len(sys.argv)!=3:
     print('param error')
@@ -68,7 +66,7 @@ else :
             rst.append(_rst)
     if len(rst) != 0:
         if os.path.exists(path+'template.txt'):
-            f_template = open(path+'template.txt',encoding="UTF-8");
+            f_template = open(path+'template.txt','r');
             template =  f_template.read();
             out = ''
             for item in rst:
@@ -79,7 +77,7 @@ else :
                 outstring = outstring.replace('$py_keyword',item['keyword'])
                 outstring = outstring.replace('$py_role',item['role'])
 
-                out = out + outstring
+                out = out + outstring + '\r\n'
             print(out)
     else :
         print('no result')

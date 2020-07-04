@@ -54,8 +54,9 @@ def search(url, keyword):
     return False
 
 rst = []
+sys.setdefaultencoding('utf-8')
 if len(sys.argv)!=3:
-    print('缺少参数')
+    print(u'缺少参数')
 else :
     keywords = sys.argv[1].split(',')
     path = sys.argv[2]
@@ -81,5 +82,5 @@ else :
                 out = out + outstring + '\r\n'
             print(out)
     else :
-        print('没有查询到结果')
+        print(u'没有查询到结果')
 

@@ -55,7 +55,7 @@ def search(url, keyword):
 
 rst = []
 if len(sys.argv)!=3:
-    print(u'缺少参数')
+    print('param error')
 else :
     keywords = sys.argv[1].split(',')
     path = sys.argv[2]
@@ -81,5 +81,5 @@ else :
                 out = out + outstring + '\r\n'
             print(out)
     else :
-        print(u'没有查询到结果')
+        print('no result')
 

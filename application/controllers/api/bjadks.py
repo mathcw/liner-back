@@ -66,9 +66,8 @@ else :
             rst.append(_rst)
     if len(rst) != 0:
         if os.path.exists(path+'template.txt'):
-            f_template = open(path+'template.txt','r');
+            f_template = open(path+'template.txt',encoding="gb2312");
             template =  f_template.read();
-
             out = ''
             for item in rst:
                 outstring = template

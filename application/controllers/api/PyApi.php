@@ -25,7 +25,7 @@ class PyApi extends TU_Controller {
                 $str = $screen;
             }
             file_put_contents(tu_file_path('py/output.txt'),$str);
-            $url = base_url(tu_file_path('py/output.txt'));
+            $url = 'http://b2b.tongyeju.com/liner-back/'.tu_file_path('py/output.txt');
             sys_succeed(null,['rst'=>$url]);
             return ;
         }else{

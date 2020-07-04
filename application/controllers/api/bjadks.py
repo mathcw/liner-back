@@ -5,6 +5,7 @@ import requests
 import urllib.parse
 import os
 import sys
+import imp
 from bs4 import BeautifulSoup
 from distutils.filelist import findall
 
@@ -53,6 +54,7 @@ def search(url, keyword):
                 return _rst
     return False
 
+imp.reload(sys)
 rst = []
 if len(sys.argv)!=3:
     print('param error')

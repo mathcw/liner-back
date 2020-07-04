@@ -15,7 +15,6 @@ class PyApi extends TU_Controller {
         
         $cmd = compati_path($cmd);
         exec($cmd,$screen,$ret);
-        var_dump($screen,$ret);exit;
         if(!empty($screen)){
             $str = '';
             if(is_array($screen)){

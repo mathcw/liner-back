@@ -79,7 +79,7 @@ else :
                 outstring = outstring.replace('$py_keyword',item['keyword'])
                 outstring = outstring.replace('$py_role',item['role'])
 
-                out = out + outstring.encode('utf-8') + '\r\n'
+                out = out + outstring.encode('utf-8').decode('utf-8') + '\r\n'
             print(out)
     else :
         print('no result')

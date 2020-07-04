@@ -11,7 +11,7 @@ class PyApi extends TU_Controller {
             sys_succeed(null,['rst'=>'']);
             return ;
         }
-        $cmd = 'python3 '.APPPATH.'/controllers/api/bjadks.py '.$post['cond'].' '.APPPATH.'/controllers/api/';
+        $cmd = 'PYTHONIOENCODING=utf-8 python3 '.APPPATH.'controllers/api/bjadks.py '.$post['cond'].' '.APPPATH.'controllers/api/';
         
         $cmd = compati_path($cmd);
         exec($cmd,$screen,$ret);

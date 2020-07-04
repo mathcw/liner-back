@@ -54,6 +54,7 @@ def search(url, keyword):
     return False
 
 rst = []
+imp.reload(sys)
 sys.setdefaultencoding('utf-8')
 if len(sys.argv)!=3:
     print(u'缺少参数')

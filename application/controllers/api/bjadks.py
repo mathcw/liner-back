@@ -60,7 +60,7 @@ else :
     keywords = sys.argv[1].split(',')
     path = sys.argv[2]
     for item in keywords:
-        item = item.encode(sys.getfilesystemencoding,errors='surrogateescape')
+        item = item.encode(sys.getfilesystemencoding(),errors='surrogateescape')
         _rst = search('https://wb.bjadks.com/Search/Index',item.decode('latin-1'))
         if _rst :
             rst.append(_rst)
